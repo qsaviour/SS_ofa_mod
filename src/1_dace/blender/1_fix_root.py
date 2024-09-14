@@ -1,6 +1,14 @@
 import bpy
 import tqdm
-import mathutils 
+import mathutils
+
+armatures = [
+    'Armature',
+    'CharArmature2',
+    'CharArmature3',
+    # 'CharArmature4',
+    # 'CharArmature5'
+]
 
 def fix_armatures(armature_name):
 
@@ -35,14 +43,15 @@ def fix_armatures(armature_name):
             base_bone.location+=mathutils.Vector((-tf[2],0,tf[0]))
         
         root_off = root_bone.location
-        tf = [e for e in root_off]
-        root_bone.location-=mathutils.Vector((0,tf[1],0))
-        base_bone.location+=mathutils.Vector((0,tf[1],0))
 
         l = base_bone.location
         rl = root_bone.location
         root_bone.location = (l[2],rl[1],-l[0])
         base_bone.location = (0,l[1],0)
+
+        # tf = [e for e in root_off]
+        # root_bone.location-=mathutils.Vector((0,tf[1],0))
+        # base_bone.location+=mathutils.Vector((0,tf[1],0))
 
         root_bone.keyframe_insert(data_path="location", frame=frame)
         base_bone.keyframe_insert(data_path="location", frame=frame)
@@ -50,7 +59,7 @@ def fix_armatures(armature_name):
         # if frame >100:
         #     break
 
-for an in ['Armature','CharArmature2','CharArmature3','CharArmature4','CharArmature5']:
+for an in armatures:
     fix_armatures(an)
 # for an in ['CharArmature1','CharArmature2','CharArmature3']:
 #     fix_armatures(an)

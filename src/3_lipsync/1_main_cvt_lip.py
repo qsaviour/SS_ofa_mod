@@ -4,11 +4,17 @@ import json
 from ofa_lip import parse_ofa
 from ss_lip import cvt_ss
 
+Test_Root = Path(r'E:\IMModels\ModProject\Dance\Song_bnd')
+
+ofa_folder = Test_Root/'lip'/'ofa'
+ofa_file_name = list(ofa_folder.glob('*.lip'))[0]
+
 def open_ss_file(ss_lip_file):
     with open(ss_lip_file) as f:
         data =json.load(f)
     return data
-def save_ss_data(ss_data,target_ss_lip_file):
+def save_ss_data(ss_data,target_ss_lip_file:Path):
+    target_ss_lip_file.parent.mkdir(exist_ok=True,parents=True)
     with open(target_ss_lip_file,'w') as f:
         json.dump(ss_data,f, indent=2, ensure_ascii=False)
 
@@ -33,9 +39,5 @@ def convert_lip(root:Path,ss_file_name,ofa_file_name):
     pass
 
 
-if __name__ == '__main__':
-    # 把ofa数据准备成可以用uassetapi处理的数据
-    Test_Root = Path(r'E:\IMModels\ModProject\Dance\Song_Cng')
-    ss_file_name ="LipSync_Sng026_00" 
-    ofa_file_name = "lipsync_cng.lip"
-    convert_lip(Test_Root,ss_file_name,ofa_file_name)
+ss_file_name ="LipSync_Sng026_00" 
+convert_lip(Test_Root,ss_file_name,ofa_file_name)

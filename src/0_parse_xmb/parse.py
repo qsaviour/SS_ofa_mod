@@ -3,7 +3,7 @@ from pathlib import Path
 from collections import Counter
 from xml.etree import ElementTree
 
-root = Path(r'E:\IMasPs4\偶像大师 ONE FOR ALL\BLJS10260\PS3_GAME\USRDIR\exp_cng')
+root = Path(r'E:\IMModels\ModProject\Dance\Song_bnd\info')
 
 final_counter = Counter()
 
@@ -94,11 +94,15 @@ def decode(b):
             s.append(chr(int.from_bytes(b[i:i+2],'big')))
         return ''.join(s)
 
-for xmb_file in root.glob('ts*.xmb'):
+# for xmb_file in root.glob('ts*.xmb'):
+for tsk_file in root.glob('*.tsk'):
     print('-'*20)
-    print(xmb_file)
+    print(tsk_file)
     counter = Counter()
-    data = o_data = open(xmb_file,'rb').read()
+    tsk = open(tsk_file,'rb').read()
+    xmb_ind = tsk.index(b'XMB ')
+    data = o_data = tsk[xmb_ind:]
+    # data = o_data = open(xmb_file,'rb').read()
     xmb_,data = read_slice(data,4)
 
     entry_count,data = read_slice(data,4,'int')
@@ -192,5 +196,5 @@ string_offsets:{string_offsets}
             node.attrib[attrib.name] = attrib.value
         node_map[e.index] = node
     tree = ElementTree.ElementTree(root)
-    tree.write(xmb_file.parent/(xmb_file.name+'_new.xml'))
+    tree.write(tsk_file.parent/(tsk_file.name+'_new.xml'))
     

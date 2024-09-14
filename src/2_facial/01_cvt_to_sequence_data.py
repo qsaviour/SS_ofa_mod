@@ -6,14 +6,14 @@ from collections import Counter
 import random
 random.seed(768)
 
-Test_Root = Path(r'E:\IMModels\ModProject\Dance\Song_Cng')
+Test_Root = Path(r'E:\IMModels\ModProject\Dance\Song_bnd')
 
 info_folder = Test_Root/"info"
 info_file_name = info_folder/"info.txt"
-xml_file = info_folder/"ts2_cng.xmb_new.xml"
+xml_file = list(info_folder.glob('*ts2*.xml'))[0]
 ss_face_target_file = Test_Root/"facial"/"ss"/"facial.json"
 
-ofa_ss_face_id_map = json.load(open(r"E:\IMModels\ModProject\Dance\Scripts\src\facial\ofa_ss_face_Id_map.json"))
+ofa_ss_face_id_map = json.load(open(r"E:\IMModels\ModProject\Dance\Scripts\src\2_facial\ofa_ss_face_Id_map.json"))
 ofa_ss_face_id_map = {int(k):v for k,v in ofa_ss_face_id_map.items()}
 # tree = etree.parse(xml_file)
 # root = tree.getroot()
@@ -57,12 +57,11 @@ for layer1 in root:
             frame = round(float(beat)/float(bpm)*60*60)
             face_pattern = data['face_id']
             face_id,force_closed = face_pattern_id_map[int(face_pattern)]
-            print(layer1.attrib,layer2.attrib)
-            ss_face_id,is_closed = ofa_ss_face_id_map[face_id][:2]
-            if ss_face_id == 24:
-                print("!!!!")
-                pass
-            res[ind].append([frame,ss_face_id,is_closed,force_closed])
+            if face_id not in ofa_ss_face_id_map:
+                print(f"FaceID: {face_id} not known. Frame: {frame}. Beat: {beat}. character: {layer2.attrib['character_no']}",)
+            else:
+                ss_face_id,is_closed = ofa_ss_face_id_map[face_id][:2]
+                res[ind].append([frame,ss_face_id,is_closed,force_closed])
 
 # add random blink
 #10-30帧眨眼 60-90帧间隔
@@ -94,8 +93,6 @@ for k,v in res.items():
     new_v.append([b1,b2,b3,b4])
     res[k] = new_v
 
-
+ss_face_target_file.parent.mkdir(exist_ok=True,parents=True)
 with open(ss_face_target_file,'w') as f:
     json.dump(res,f)
-print(res[0])
-print(ss_face_target_file)

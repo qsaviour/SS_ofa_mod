@@ -1,5 +1,7 @@
 # bpm = 159 # col
-bpm = 170 #cng
+# bpm = 170 #cng
+bpm = 163 # bnd
+
 while True:
     a = input()
     a,b = a.split('.')

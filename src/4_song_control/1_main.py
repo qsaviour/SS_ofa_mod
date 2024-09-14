@@ -2,7 +2,7 @@ from pathlib import Path
 from parse_xml import parse_ofa_song_control
 import json
 
-info_folder_path = Path(r'E:\IMModels\ModProject\Dance\Song_Cng\info')
+info_folder_path = Path(r'E:\IMModels\ModProject\Dance\Song_bnd\info')
 
 info_file = info_folder_path/'info.txt'
 ts2_file = list(info_folder_path.glob('ts2*.xml'))[0] ; print(ts2_file)

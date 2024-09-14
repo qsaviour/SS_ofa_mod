@@ -6,6 +6,8 @@ import time
 import json
 import shutil
 
+Test_Root = Path(r'E:\IMModels\ModProject\Dance\Song_bnd')
+
 
 def convert_sons(root):
     HCA = "33d98a3a9f9bfdef"
@@ -80,6 +82,4 @@ def convert_sons(root):
     shutil.rmtree(ue_p_folder,ignore_errors=True)
     shutil.move(ss_target_sonf_folder,ue_p_folder)
 
-if __name__ == '__main__':
-    Test_Root = Path(r'E:\IMModels\ModProject\Dance\Song_Cng')
-    convert_sons(Test_Root)
+convert_sons(Test_Root)

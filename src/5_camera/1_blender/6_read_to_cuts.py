@@ -2,6 +2,7 @@ import bpy
 from pathlib import Path
 import json
 import random
+from collections import Counter
 
 TOTAL_CHAR_NUM = 5
 
@@ -16,37 +17,37 @@ BASE_FOCAL_LENGTH = 45
 
 CamerasPatter1 = {
             1:{
-                'close':['Camera_close_1-1_Char',"Camera_close_1-2_Char"],
+                'close':['Camera_close_1-1_Char',"Camera_close_1-2_Char","Camera_close_1-3_Char"],
                 'norm':["Camera_norm_1-1_Char"],
             },
             2:{
-                'close':['Camera_close_2-1_Char',"Camera_close_2-2_Char"],
+                'close':['Camera_close_2-1_Char',"Camera_close_2-2_Char","Camera_close_2-3_Char"],
                 'norm':["Camera_norm_2-1_Char"],
             },
             3:{
-                'close':['Camera_close_3-1_Char',"Camera_close_3-2_Char"],
+                'close':['Camera_close_3-1_Char',"Camera_close_3-2_Char","Camera_close_3-3_Char"],
                 'norm':["Camera_norm_3-1_Char"],
             },
             4:{
-                'close':['Camera_close_4-1_Char',"Camera_close_4-2_Char"],
+                'close':['Camera_close_4-1_Char',"Camera_close_4-2_Char","Camera_close_4-3_Char"],
                 'norm':["Camera_norm_4-1_Char"],
             },
             5:{
-                'close':['Camera_close_5-1_Char',"Camera_close_5-2_Char"],
+                'close':['Camera_close_5-1_Char',"Camera_close_5-2_Char","Camera_close_5-3_Char"],
                 'norm':["Camera_norm_5-1_Char"],
             },
 }
 
 CamerasPatter2 = {
-            1:{'close':["Camera_close_1-1_Char","Camera_close_1-2_Char"],
+            1:{'close':["Camera_close_1-1_Char","Camera_close_1-2_Char","Camera_close_1-3_Char"],
                 'norm':["Camera_norm_1-1_Char"]},
-            2:{'close':["Camera_close_2-1_Char","Camera_close_2-2_Char"],
+            2:{'close':["Camera_close_2-1_Char","Camera_close_2-2_Char","Camera_close_2-3_Char"],
                 'norm':["Camera_norm_2-1_Char"]},
-            3:{'close':["Camera_close_3-1_Char","Camera_close_3-2_Char"],
+            3:{'close':["Camera_close_3-1_Char","Camera_close_3-2_Char","Camera_close_3-3_Char"],
                 'norm':["Camera_norm_3-1_Char"]},
-            4:{'close':["Camera_close_4-1_Char","Camera_close_4-2_Char"],
+            4:{'close':["Camera_close_4-1_Char","Camera_close_4-2_Char","Camera_close_4-3_Char"],
                 'norm':["Camera_norm_4-1_Char"]},
-            5:{'close':["Camera_close_5-1_Char","Camera_close_5-2_Char"],
+            5:{'close':["Camera_close_5-1_Char","Camera_close_5-2_Char","Camera_close_5-3_Char"],
                 'norm':["Camera_norm_5-1_Char"]},
             'auto':{ # total_num
                 1:["CameraNormal_1"],
@@ -65,48 +66,43 @@ def clear_focal(camera_name):
             if fcurve.data_path == "lens":
                 camera.animation_data.action.fcurves.remove(fcurve)
 
+char_mark_map = {
+    5:{2:2,3:3,6:1,7:1},
+    4:{2:2,3:3,6:2,7:3},
+    3:{2:2,3:3,6:1,7:1},
+    2:{2:2,3:3,6:3,7:2},
+    1:{2:1,3:1,6:1,7:1}
+}
+char_choise_able={
+    5:[1,2,3,4,5],
+    4:[2,3,4,5],
+    3:[1,2,3],
+    2:[2,3],
+    1:[1]
+}
+
 class Char_Getter():
     def __init__(self,total_char_num):
         self.total_char_num = total_char_num
         self.cameras = CamerasPatter1
-        self.seen_char = set()
         for _,v in self.cameras.items():
             for _,camera_names in v.items():
                 for camera_name in camera_names:
                     clear_focal(camera_name)
+        self.counter = Counter()
+        for _,target in ofa_data['camera_target']:
+            self.counter[char_mark_map[target]]+=1
+
     
     def get_char_by_mark(self,mark):
         if mark == 0:
-            if self.total_char_num == 5:
-                bac_chars =  [1,2,3,4,5]
-            elif self.total_char_num == 4:
-                bac_chars =  [2,3,4,5]
-            elif self.total_char_num == 3:
-                bac_chars =  [1,2,3]
-            elif self.total_char_num == 2:
-                bac_chars =  [2,3]
-            elif self.total_char_num == 1:
-                bac_chars =  [1]
-            if len([e for e in bac_chars if e not in self.seen_char])==0:
-                for e in bac_chars:
-                    self.seen_char.remove(e)
-            bac_chars = [e for e in bac_chars if e not in self.seen_char]
-            cur_char = random.choice(bac_chars)
-            char = cur_char
+            bac_chars = char_choise_able[self.total_char_num]
+            most_common_count = list(self.counter.most_common())[-1][-1]
+            bac_chars = [e[0] for e in self.counter.items() if e[1] == most_common_count]
+            char = random.choice(bac_chars)
         else:
-            if self.total_char_num == 5:
-                char =  {2:2,3:3,6:1,7:1}[mark]
-            elif self.total_char_num == 4:
-                char =  {2:2,3:3,6:2,7:3}[mark]
-            elif self.total_char_num == 3:
-                char =  {2:2,3:3,6:1,7:1}[mark]
-            elif self.total_char_num == 2:
-                char =  {2:2,3:3,6:3,7:2}[mark]
-            elif self.total_char_num == 1:
-                char =  {2:1,3:1,6:1,7:1}[mark]
-            else:
-                raise ValueError("???")
-        self.seen_char.add(char)
+            char = char_mark_map[self.total_char_num][mark]
+        self.counter[char] +=1
         return char
 
 class CameraGetter():

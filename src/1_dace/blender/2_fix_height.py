@@ -2,6 +2,14 @@ import bpy
 import bmesh
 import tqdm
 
+armature_and_meshs = [
+    ('Armature','SK_chr_body_base'),
+    ('CharArmature2','SK_chr_body_base.003'),
+    ('CharArmature3','SK_chr_body_base.004'),
+    # ('CharArmature4','SK_chr_body_base.007'),
+    # ('CharArmature5','SK_chr_body_base.008'),
+]
+
 def get_lowest_point(obj):
     bm = bmesh.new()
     bm.from_object(obj, bpy.context.evaluated_depsgraph_get())
@@ -11,8 +19,6 @@ def get_lowest_point(obj):
 
 def fix_height(armature_name,object_name):
 # 指定你的骨骼对象名称和骨骼名称
-    # armature_name = "Armature.001"  #<------
-    # object_name = "SK_chr_body_base.002" #<-------
     bone_name = "AO_Base"
 
     # 获取骨骼对象
@@ -24,7 +30,7 @@ def fix_height(armature_name,object_name):
     bpy.ops.object.mode_set(mode='POSE')
 
     # 获取骨骼姿态
-    root_bone = armature.pose.bones[bone_name]
+    base_bone = armature.pose.bones[bone_name]
 
     frame_start = bpy.context.scene.frame_start
     frame_end = bpy.context.scene.frame_end
@@ -32,20 +38,12 @@ def fix_height(armature_name,object_name):
     # lowest_points_init =None
     lowest_points_init = 0
     for frame in tqdm.tqdm(range(frame_start,frame_end+1)):
-        # if 0<frame<215:
-        #     continue
         bpy.context.scene.frame_set(frame)
         lowest_point = get_lowest_point(obj)
 
-        root_bone.location.y += max(0,lowest_points_init-lowest_point.z)
-        root_bone.keyframe_insert(data_path="location", frame=frame)
+        base_bone.location.y += max(0,lowest_points_init-lowest_point.z)
+        base_bone.keyframe_insert(data_path="location", frame=frame)
 
-for a,o in [
-    ('CharArmature1','SK_chr_body_base'),
-    ('CharArmature2','SK_chr_body_base.003'),
-    ('CharArmature3','SK_chr_body_base.004'),
-    ('CharArmature4','SK_chr_body_base.007'),
-    ('CharArmature5','SK_chr_body_base.008'),
-]:
+for a,o in armature_and_meshs:
     fix_height(a,o)
     

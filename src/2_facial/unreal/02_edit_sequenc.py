@@ -2,7 +2,7 @@ import unreal
 import json
 import re
 
-ss_data = json.load(open(r"E:\IMModels\ModProject\Dance\Song_Cng\facial\ss\facial.json"))
+ss_data = json.load(open(r"E:\IMModels\ModProject\Dance\Song_bnd\facial\ss\facial.json"))
 ss_data = {int(k):v for k,v in ss_data.items()}
 # 定义 Level Sequence 的路径
 level_sequence_path = "/Game/Sequence/Live/Sng026/LS_Sng026_Common_Chara.LS_Sng026_Common_Chara"
