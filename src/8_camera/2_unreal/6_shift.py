@@ -1,11 +1,11 @@
 import unreal
 
 level_sequence_paths = [
-    # '/Game/Sequence/Live/cam_1.cam_1',
-    # '/Game/Sequence/Live/cam_2.cam_2',
+    '/Game/Sequence/Live/cam_1.cam_1',
+    '/Game/Sequence/Live/cam_2.cam_2',
     # '/Game/Sequence/Live/cam_3.cam_3',
     # '/Game/Sequence/Live/cam_4.cam_4',
-    '/Game/Sequence/Live/cam_5.cam_5',
+    # '/Game/Sequence/Live/cam_5.cam_5',
 ]
 
 OFFSET = -180

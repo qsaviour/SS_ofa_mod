@@ -1,6 +1,6 @@
 # bpm = 159 # col
-# bpm = 170 #cng
-bpm = 163 # bnd
+bpm = 170 #cng
+# bpm = 163 # bnd
 
 while True:
     a = input()
@@ -8,4 +8,4 @@ while True:
     a,b = map(int,(a,b))
     frames = a+b/30
     beats = frames/60*bpm
-    print(beats)
+    print({'beats':beats,'frame':frames*60})

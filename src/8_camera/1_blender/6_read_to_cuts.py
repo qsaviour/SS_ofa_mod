@@ -4,11 +4,11 @@ import json
 import random
 from collections import Counter
 
-TOTAL_CHAR_NUM = 5
+TOTAL_CHAR_NUM = 3
 
-FRAME_DELAY = 180
+FRAME_DELAY = 180 + 15
 
-ofa_root =  Path(r"e:\IMModels\ModProject\Dance\Song_Cng")
+ofa_root =  Path(r"e:\IMModels\ModProject\Dance\Song_bnd")
 ofa_cache = ofa_root/'cache'
 with open(ofa_cache/'camera'/'camera_res.json') as f:
     ofa_data = json.load(f)
@@ -91,7 +91,10 @@ class Char_Getter():
                     clear_focal(camera_name)
         self.counter = Counter()
         for _,target in ofa_data['camera_target']:
-            self.counter[char_mark_map[target]]+=1
+            if target != 0:
+                target = char_mark_map[self.total_char_num][target]
+                
+                self.counter[target]+=1
 
     
     def get_char_by_mark(self,mark):
@@ -154,11 +157,11 @@ for ind,((frame,camera_mark),(_,char_mark)) in enumerate(zip(ofa_data['camera_id
     
     camera_name,focal_length = camera_getter.get_camera_by_mark(camera_mark,char_mark)
     camera = bpy.data.objects[camera_name]
-
+    
     if frame !=0 and camera_mark!=2: # not auto camera
         camera.data.keyframe_insert(data_path='lens',frame= frame-1)
-    if focal_length is not None:
-        camera.data.lens = focal_length
-    camera.data.keyframe_insert(data_path='lens',frame= frame)
+        if focal_length is not None:
+            camera.data.lens = focal_length
+        camera.data.keyframe_insert(data_path='lens',frame= frame)
     marker1 = scene.timeline_markers.new(f'F_{frame}', frame=frame)
     marker1.camera = camera

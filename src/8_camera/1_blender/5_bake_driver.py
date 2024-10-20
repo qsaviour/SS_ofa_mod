@@ -3,9 +3,9 @@ import math
 import tqdm
 
 objects =[
-    # ["CameraNormal_5","cam_dan_cng_cam3_u5out.ao","Camera_fov"],
-    ["CameraNormal_3","cam_dan_cng_cam3_u3out.ao","Camera_fov"],
     ["CameraNormal_1","cam_dan_cng_cam3_u1out.ao","Camera_fov"],
+    ["CameraNormal_3","cam_dan_cng_cam3_u3out.ao","Camera_fov"],
+    # ["CameraNormal_5","cam_dan_cng_cam3_u5out.ao","Camera_fov"],
 ]
 
 def bake_driver(objs):
@@ -13,9 +13,10 @@ def bake_driver(objs):
 
     camera = bpy.data.objects[camera_name]
     camera = bpy.data.cameras[camera.data.name]
-    for fcurve in camera.animation_data.action.fcurves:
-        if fcurve.data_path == "lens":
-            camera.animation_data.action.fcurves.remove(fcurve)
+    if camera.animation_data.action:
+        for fcurve in camera.animation_data.action.fcurves:
+            if fcurve.data_path == "lens":
+                camera.animation_data.action.fcurves.remove(fcurve)
     camera = bpy.data.objects[camera_name]
 
     armature = bpy.data.objects.get(armature_name)

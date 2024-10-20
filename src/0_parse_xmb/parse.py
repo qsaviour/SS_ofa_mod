@@ -3,7 +3,7 @@ from pathlib import Path
 from collections import Counter
 from xml.etree import ElementTree
 
-root = Path(r'E:\IMModels\ModProject\Dance\Song_bnd\info')
+root = Path(r'E:\IMModels\ModProject\Dance\Light_parse')
 
 final_counter = Counter()
 
@@ -95,7 +95,7 @@ def decode(b):
         return ''.join(s)
 
 # for xmb_file in root.glob('ts*.xmb'):
-for tsk_file in root.glob('*.tsk'):
+for tsk_file in root.glob(f'*.tsk'):
     print('-'*20)
     print(tsk_file)
     counter = Counter()

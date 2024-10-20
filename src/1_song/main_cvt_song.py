@@ -6,7 +6,7 @@ import time
 import json
 import shutil
 
-Test_Root = Path(r'E:\IMModels\ModProject\Dance\Song_bnd')
+Test_Root = Path(r'E:\IMModels\ModProject\Dance\Song_meg')
 
 
 def convert_sons(root):
@@ -76,9 +76,8 @@ def convert_sons(root):
             # c_file = ss_song_folder/f"CueSheet_SWAV_Sng026_{c_name}.uexp"
             shutil.copy(out_file,ss_target_sonf_folder/f"CueSheet_SWAV_Sng026_{c_name}.uexp")
 
-    ue_p_folder = song_folder/'Audio/CueSheet/Song'
+    ue_p_folder = song_folder/'Audio/CueSheet/Song/Song026'
     ue_p_folder.mkdir(parents=True,exist_ok=True)
-    print("!!!!",ue_p_folder)
     shutil.rmtree(ue_p_folder,ignore_errors=True)
     shutil.move(ss_target_sonf_folder,ue_p_folder)
 

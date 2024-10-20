@@ -5,13 +5,13 @@ import random
 random.seed(768)
 from collections import defaultdict
 
-ofa_root =  Path(r"e:\IMModels\ModProject\Dance\Song_Cng")
-ofa_ts = ofa_root / "info/ts2_cng.xmb_new.xml"
+ofa_root =  Path(r"e:\IMModels\ModProject\Dance\Song_col")
+ofa_ts = next((ofa_root /"info").glob("*ts2*.xml"))
 ofa_cache = ofa_root/'cache'/'camera'
 ofa_cache.mkdir(exist_ok=True,parents=True)
 
 info_file_path = ofa_root/'info'/'info.txt'
-ofa_bpm = open(info_file_path).read().split()[0]
+ofa_bpm = int(open(info_file_path).read().split()[0])
 
 def parse_ofa(path,bpm):
     tree = etree.parse(path)
@@ -41,6 +41,8 @@ def parse_ofa(path,bpm):
                             break
         if e.attrib['class']=='CameraController':
             for event in e:
+                if not event.attrib['beat']:
+                    continue
                 beat = float(event.attrib['beat'])
                 frame = round(beat*60*60/bpm)
                 camera_pattern = int(event.attrib['camera_id'])
@@ -56,6 +58,6 @@ def parse_ofa(path,bpm):
     return data
 
 res = parse_ofa(ofa_ts,ofa_bpm)
-
+print("save to",ofa_cache/'camera_res.json')
 with open(ofa_cache/'camera_res.json','w') as f:
     json.dump(res,f)

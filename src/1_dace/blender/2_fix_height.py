@@ -2,6 +2,8 @@ import bpy
 import bmesh
 import tqdm
 
+# - 215
+
 armature_and_meshs = [
     ('Armature','SK_chr_body_base'),
     ('CharArmature2','SK_chr_body_base.003'),

@@ -1,7 +1,7 @@
 import json
 import unreal
 
-bpm,control_datas = json.load(open(r'E:\IMModels\ModProject\Dance\Scripts\src\4_song_control\unreal\control_data.json'))
+bpm,control_datas = json.load(open(r'E:\IMModels\ModProject\Dance\Song_ful\cache\song_control\control_data.json'))
 ss_control_path = '/Game/Sequence/Live/Sng026/LS_Sng026_Common_Chara.LS_Sng026_Common_Chara'
 
 level_sequence = unreal.EditorAssetLibrary.load_asset(ss_control_path)

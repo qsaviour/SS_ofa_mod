@@ -6,12 +6,12 @@ from collections import Counter
 import random
 random.seed(768)
 
-Test_Root = Path(r'E:\IMModels\ModProject\Dance\Song_bnd')
+Test_Root = Path(r'E:\IMModels\ModProject\Dance\Song_ful')
 
 info_folder = Test_Root/"info"
 info_file_name = info_folder/"info.txt"
 xml_file = list(info_folder.glob('*ts2*.xml'))[0]
-ss_face_target_file = Test_Root/"facial"/"ss"/"facial.json"
+ss_face_target_file = Test_Root/"cache"/"facial"/"facial.json"
 
 ofa_ss_face_id_map = json.load(open(r"E:\IMModels\ModProject\Dance\Scripts\src\2_facial\ofa_ss_face_Id_map.json"))
 ofa_ss_face_id_map = {int(k):v for k,v in ofa_ss_face_id_map.items()}
@@ -59,6 +59,8 @@ for layer1 in root:
             face_id,force_closed = face_pattern_id_map[int(face_pattern)]
             if face_id not in ofa_ss_face_id_map:
                 print(f"FaceID: {face_id} not known. Frame: {frame}. Beat: {beat}. character: {layer2.attrib['character_no']}",)
+                ss_face_id,is_closed = 1,False
+                res[ind].append([frame,ss_face_id,is_closed,force_closed])
             else:
                 ss_face_id,is_closed = ofa_ss_face_id_map[face_id][:2]
                 res[ind].append([frame,ss_face_id,is_closed,force_closed])
@@ -94,5 +96,6 @@ for k,v in res.items():
     res[k] = new_v
 
 ss_face_target_file.parent.mkdir(exist_ok=True,parents=True)
+print(f"write to {ss_face_target_file}")
 with open(ss_face_target_file,'w') as f:
     json.dump(res,f)

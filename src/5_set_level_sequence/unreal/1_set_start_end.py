@@ -1,6 +1,8 @@
 import unreal
 
-DURATION = 7684
+# DURATION = 7684 # bnd
+# DURATION = 7704 # ful
+DURATION = 7884 # cng
 
 # 指定要遍历的文件夹路径
 folder_path = "/Game/Sequence/DivSequence/Sng026"  # 替换为您的文件夹路径
@@ -17,5 +19,7 @@ for asset_data in asset_data_list:
     level_sequence = unreal.LevelSequence.cast(unreal.load_asset(asset_path))
     o_start = level_sequence.get_playback_start()
 
-    o_end = o_start+DURATION
+    o_end = o_start+DURATION - 10
     level_sequence.set_playback_end(o_end)
+
+print("Set Duration as",DURATION)
