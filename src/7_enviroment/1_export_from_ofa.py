@@ -38,7 +38,7 @@ def cvt_color(color_n,smooth_color = None,reverse=True):
         return c,b,a
     return a,b,c
 
-def enhance_color(color,mixed_color = (0.8,0.8,0.8),weight=0.8):
+def enhance_color(color,mixed_color = (0.5,0.5,0.5),weight=0.8):
     a,b,c = color
     aa,bb,cc = mixed_color
     return [(a+weight*aa)/(weight+1),(b+weight*bb)/(weight+1),(c+weight*cc)/(weight+1)]

@@ -10,7 +10,7 @@ import shutil
 Test_Root = Path(json.load(open('../root_folder.json'))['root'])
 
 def convert_sons(root):
-    HCA = "33d98a3a9f9bfdef"
+    HCA = "4ee10a3e3bb19e57"
 
     with open('character_map.json') as f:
         name_map = json.load(f)
@@ -50,6 +50,7 @@ def convert_sons(root):
             source_hca_length = len(sf.read())
         with open(hca_file,'rb') as tf:
             data = tf.read()
+        assert source_hca_length > len(data)
         data = data + b'0'*(source_hca_length - len(data))
         hca_file_1 = hca_file.parent/(hca_file.name+'_1')
         hca_file_2 = hca_file.parent/(hca_file.name+'_2')
@@ -75,14 +76,14 @@ def convert_sons(root):
     for ofa_file in ofa_song_folder.glob('*.nus3bank'):
         s_name = ofa_file.name.split('.')[0][-3:]
         t_name = name_map[s_name][0]
-        ue_file = ss_song_folder/f"CueSheet_SWAV_Sng026_{t_name}.uexp"
+        ue_file = ss_song_folder/f"CueSheet_SWAV_Sng021_{t_name}.uexp"
         # print(ue_file,ue_file.exists())
         out_file = convert_song(ue_file,ofa_file)
         for c_name in name_map[s_name][1:]:
             # c_file = ss_song_folder/f"CueSheet_SWAV_Sng026_{c_name}.uexp"
-            shutil.copy(out_file,ss_target_sonf_folder/f"CueSheet_SWAV_Sng026_{c_name}.uexp")
+            shutil.copy(out_file,ss_target_sonf_folder/f"CueSheet_SWAV_Sng021_{c_name}.uexp")
 
-    ue_p_folder = song_folder/'Audio/CueSheet/Song/Song026'
+    ue_p_folder = song_folder/'Audio/CueSheet/Song/Song021'
     ue_p_folder.mkdir(parents=True,exist_ok=True)
     shutil.rmtree(ue_p_folder,ignore_errors=True)
     shutil.move(ss_target_sonf_folder,ue_p_folder)
