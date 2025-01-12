@@ -3,21 +3,35 @@ import random
 
 # 随机设置人物摄像机的follow path的起止点
 
+#### delete anime first
+
 objects =[
     "Camera_close_1-1_Char",
     "Camera_close_1-2_Char",
     "Camera_close_1-3_Char",
     "Camera_norm_1-1_Char",
-
+    "Camera_close_1-3_Char_pan",
+    "Camera_close_1-3_Char_pan_long",
+    "Camera_close_1-3_Char_h_pan",
+    "Camera_close_1-3_Char_ass",
+    
     "Camera_close_2-1_Char",
     "Camera_close_2-2_Char",
     "Camera_close_2-3_Char",
     "Camera_norm_2-1_Char",
+    "Camera_close_2-3_Char_pan",
+    "Camera_close_2-3_Char_pan_long",
+    "Camera_close_2-3_Char_h_pan",
+    "Camera_close_2-3_Char_ass",
 
     "Camera_close_3-1_Char",
     "Camera_close_3-2_Char",
     "Camera_close_3-3_Char",
     "Camera_norm_3-1_Char",
+    "Camera_close_3-3_Char_pan",
+    "Camera_close_3-3_Char_pan_long",
+    "Camera_close_3-3_Char_h_pan",
+    "Camera_close_3-3_Char_ass",
 
     # "Camera_close_4-1_Char",
     # "Camera_close_4-2_Char",
@@ -28,12 +42,17 @@ objects =[
     # "Camera_close_5-2_Char",
     # "Camera_close_5-3_Char",
     # "Camera_norm_5-1_Char",
+
+    "CameraLong"
 ]
 
 current_area = bpy.context.area.type
 
 for ind,obj_name in enumerate(objects):
     
+    if obj_name not in bpy.data.objects:
+        print(obj_name,"not found!!!")
+        continue
     obj = bpy.data.objects[obj_name]
     follow_path = obj.constraints['Follow Path']
     

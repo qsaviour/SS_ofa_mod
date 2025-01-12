@@ -4,7 +4,7 @@ import tqdm
 
 objects =[
     ["CameraNormal_1","cam_dan_cng_cam3_u1out.ao","Camera_fov"],
-    # ["CameraNormal_3","cam_dan_cng_cam3_u3out.ao","Camera_fov"],
+    ["CameraNormal_3","cam_dan_cng_cam3_u3out.ao","Camera_fov"],
     # ["CameraNormal_5","cam_dan_cng_cam3_u5out.ao","Camera_fov"],
 ]
 

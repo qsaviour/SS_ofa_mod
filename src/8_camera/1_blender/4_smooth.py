@@ -5,30 +5,44 @@ objects = [
     ["Camera_close_1-2_Char",5],
     ["Camera_close_1-3_Char",5],
     ["Camera_norm_1-1_Char",10],
+    ["Camera_close_1-3_Char_pan",5],
+    ["Camera_close_1-3_Char_pan_long",5],
+    ["Camera_close_1-3_Char_h_pan",5],
+    ["Camera_close_1-3_Char_ass",5],
 
     ["Camera_close_2-1_Char",5],
     ["Camera_close_2-2_Char",5],
     ["Camera_close_2-3_Char",5],
     ["Camera_norm_2-1_Char",10],
+    ["Camera_close_2-3_Char_pan",5],
+    ["Camera_close_2-3_Char_pan_long",5],
+    ["Camera_close_2-3_Char_h_pan",5],
+    ["Camera_close_2-3_Char_ass",5],
 
     ["Camera_close_3-1_Char",5],
     ["Camera_close_3-2_Char",5],
     ["Camera_close_3-3_Char",5],
     ["Camera_norm_3-1_Char",10],
+    ["Camera_close_3-3_Char_pan",5],
+    ["Camera_close_3-3_Char_pan_long",5],
+    ["Camera_close_3-3_Char_h_pan",5],
+    ["Camera_close_3-3_Char_ass",5],
 
-    # ["Camera_close_4-1_Char",5],
-    # ["Camera_close_4-2_Char",5],
-    # ["Camera_close_4-3_Char",5],
+    # ["Camera_close_4-1_Char",10],
+    # ["Camera_close_4-2_Char",10],
+    # ["Camera_close_4-3_Char",10],
     # ["Camera_norm_4-1_Char",10],
     
-    # ["Camera_close_5-1_Char",5],
-    # ["Camera_close_5-2_Char",5],
-    # ["Camera_close_5-3_Char",5],
+    # ["Camera_close_5-1_Char",10],
+    # ["Camera_close_5-2_Char",10],
+    # ["Camera_close_5-3_Char",10],
     # ["Camera_norm_5-1_Char",10],
 ]    
 current_area = bpy.context.area.type
 for obj_name,times in objects:
-    
+    if obj_name not in bpy.data.objects:
+        print(obj_name,"not found!!!")
+        continue
     obj = bpy.data.objects[obj_name]
     
     if obj.animation_data and obj.animation_data.action:

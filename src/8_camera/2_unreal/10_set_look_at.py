@@ -4,7 +4,7 @@ import re
 # from pathlib import Path
 
 
-ofa_root =  r"e:\IMModels\ModProject\Dance\Song_bnd"
+ofa_root =  r"f:\IMModels\ModProject\Dance\Song_col"
 ofa_cache = ofa_root + '/cache'
 with open(ofa_cache+'/camera'+'/camera_res.json') as f:
     ofa_data = json.load(f)

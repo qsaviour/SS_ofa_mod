@@ -4,16 +4,13 @@ import json
 import random
 from collections import Counter
 
-random.seed(769)
-
 TOTAL_CHAR_NUM = 3
 
 FRAME_DELAY = 180 + 15
 
-ofa_root = json.load(open(r'F:\IMModels\ModProject\Dance\Scripts\src\root_folder.json'))['root']
-# ofa_root =  Path(r"f:\IMModels\ModProject\Dance\Song_col")
-ofa_cache = f"{ofa_root}\\cache"
-with open(f"{ofa_cache}\\camera\\camera_res.json") as f:
+ofa_root =  Path(r"f:\IMModels\ModProject\Dance\Song_gmw")
+ofa_cache = ofa_root/'cache'
+with open(ofa_cache/'camera'/'camera_res.json') as f:
     ofa_data = json.load(f)
 
 BASE_FOCAL_LENGTH = 45
@@ -21,37 +18,37 @@ FOCAL_NOISE = 3
 
 CamerasPatter1 = {
             1:{
-                'close':['Camera_close_1-1_Char',"Camera_close_1-2_Char","Camera_close_1-3_Char_h_pan","Camera_close_1-3_Char_pan","Camera_close_1-3_Char_pan_long"],
+                'close':['Camera_close_1-1_Char',"Camera_close_1-2_Char","Camera_close_1-3_Char",],
                 'norm':["Camera_norm_1-1_Char"],
             },
             2:{
-                'close':['Camera_close_2-1_Char',"Camera_close_2-2_Char","Camera_close_2-3_Char_h_pan","Camera_close_2-3_Char_pan","Camera_close_2-3_Char_pan_long"],
+                'close':['Camera_close_2-1_Char',"Camera_close_2-2_Char","Camera_close_2-3_Char",],
                 'norm':["Camera_norm_2-1_Char"],
             },
             3:{
-                'close':['Camera_close_3-1_Char',"Camera_close_3-2_Char","Camera_close_3-3_Char_h_pan","Camera_close_3-3_Char_pan","Camera_close_3-3_Char_pan_long"],
+                'close':['Camera_close_3-1_Char',"Camera_close_3-2_Char","Camera_close_3-3_Char",],
                 'norm':["Camera_norm_3-1_Char"],
             },
             4:{
-                'close':['Camera_close_4-1_Char',"Camera_close_4-2_Char","Camera_close_4-3_Char_h_pan","Camera_close_4-3_Char_pan","Camera_close_4-3_Char_pan_long"],
+                'close':['Camera_close_4-1_Char',"Camera_close_4-2_Char","Camera_close_4-3_Char",],
                 'norm':["Camera_norm_4-1_Char"],
             },
             5:{
-                'close':['Camera_close_5-1_Char',"Camera_close_5-2_Char","Camera_close_5-3_Char_h_pan","Camera_close_5-3_Char_pan","Camera_close_5-3_Char_pan_long"],
+                'close':['Camera_close_5-1_Char',"Camera_close_5-2_Char","Camera_close_5-3_Char",],
                 'norm':["Camera_norm_5-1_Char"],
             },
 }
 
 CamerasPatter2 = {
-            1:{'close':["Camera_close_1-1_Char","Camera_close_1-2_Char","Camera_close_1-3_Char_h_pan","Camera_close_1-3_Char_pan","Camera_close_1-3_Char_pan_long"],
+            1:{'close':["Camera_close_1-1_Char","Camera_close_1-2_Char","Camera_close_1-3_Char",],
                 'norm':["Camera_norm_1-1_Char"]},
-            2:{'close':["Camera_close_2-1_Char","Camera_close_2-2_Char","Camera_close_2-3_Char_h_pan","Camera_close_2-3_Char_pan","Camera_close_2-3_Char_pan_long"],
+            2:{'close':["Camera_close_2-1_Char","Camera_close_2-2_Char","Camera_close_2-3_Char",],
                 'norm':["Camera_norm_2-1_Char"]},
-            3:{'close':["Camera_close_3-1_Char","Camera_close_3-2_Char","Camera_close_3-3_Char_h_pan","Camera_close_3-3_Char_pan","Camera_close_3-3_Char_pan_long"],
+            3:{'close':["Camera_close_3-1_Char","Camera_close_3-2_Char","Camera_close_3-3_Char",],
                 'norm':["Camera_norm_3-1_Char"]},
-            4:{'close':["Camera_close_4-1_Char","Camera_close_4-2_Char","Camera_close_4-3_Char_h_pan","Camera_close_4-3_Char_pan","Camera_close_4-3_Char_pan_long"],
+            4:{'close':["Camera_close_4-1_Char","Camera_close_4-2_Char","Camera_close_4-3_Char",],
                 'norm':["Camera_norm_4-1_Char"]},
-            5:{'close':["Camera_close_5-1_Char","Camera_close_5-2_Char","Camera_close_5-3_Char_h_pan","Camera_close_5-3_Char_pan","Camera_close_5-3_Char_pan_long"],
+            5:{'close':["Camera_close_5-1_Char","Camera_close_5-2_Char","Camera_close_5-3_Char",],
                 'norm':["Camera_norm_5-1_Char"]},
             'auto':{ # total_num
                 1:["CameraNormal_1"],
@@ -75,10 +72,10 @@ def clear_focal(camera_name):
 
 char_mark_map = {
     5:{1:1,2:2,3:3,6:1,7:1},
-    4:{1:4,2:2,3:3,6:2,7:3},
+    4:{1:1,2:2,3:3,6:2,7:3},
     3:{1:1,2:2,3:3,6:1,7:1},
-    2:{1:2,2:2,3:3,6:3,7:2},
-    1:{1:1,2:1,3:1,6:1,7:1}
+    2:{1:1,2:2,3:3,6:3,7:2},
+    1:{2:1,3:1,6:1,7:1}
 }
 char_choise_able={
     5:[1,2,3,4,5],
@@ -104,10 +101,11 @@ class Char_Getter():
 
     
     def get_char_by_mark(self,mark,last_char):
+        print(self.counter)
         if mark == 0:
             bac_chars = char_choise_able[self.total_char_num]
             counter = self.counter.copy()
-            if len(counter) > 1 and last_char is not None:
+            if last_char is not None:
                 counter.pop(last_char)
             most_common_count = list(counter.most_common())[-1][-1]
             bac_chars = [e[0] for e in counter.items() if e[1] == most_common_count]

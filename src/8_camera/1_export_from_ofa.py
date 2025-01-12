@@ -5,13 +5,14 @@ import random
 random.seed(768)
 from collections import defaultdict
 
-ofa_root =  Path(r"e:\IMModels\ModProject\Dance\Song_col")
+ofa_root = json.load(open('../root_folder.json'))['root']
+ofa_root = Path(ofa_root)
 ofa_ts = next((ofa_root /"info").glob("*ts2*.xml"))
 ofa_cache = ofa_root/'cache'/'camera'
 ofa_cache.mkdir(exist_ok=True,parents=True)
 
 info_file_path = ofa_root/'info'/'info.txt'
-ofa_bpm = int(open(info_file_path).read().split()[0])
+ofa_bpm = int(open(info_file_path,encoding='utf-8').read().split()[0])
 
 def parse_ofa(path,bpm):
     tree = etree.parse(path)
